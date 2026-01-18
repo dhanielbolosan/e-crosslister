@@ -7,6 +7,9 @@
     "default_popup": "index.html"
   },
   "permissions": ["activeTab", "storage"],
+  "host_permissions": [
+    "https://media-photos.depop.com/*"
+  ],
   "content_scripts": [
     {
       "js": ["src/content.js"],
