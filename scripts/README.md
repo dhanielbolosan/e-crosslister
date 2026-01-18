@@ -1,4 +1,4 @@
-Command Line Powered Tool to download posts from depop and upload to other websites
+Command Line Powered Script to download posts from depop
 
 python -m venv .venv
 source .venv/bin/activate

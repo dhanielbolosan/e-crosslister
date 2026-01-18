@@ -16,52 +16,50 @@ async def get_listing_urls(page, base_url):
 
     # Wait for products to load, return empty if none found
     try:
-        await page.wait_for_selector('a[href*="/products/"]', timeout=TIMEOUT_SHORT)
+        await page.wait_for_selector('li[class*="listItem"]', timeout=TIMEOUT_SHORT)
     except:
         print("Warning: No products found on profile.")
         return []
 
     # Scroll down to load paginated products if any
-    prev_count = 0
+    prev_active_count = 0
     attempts = 0
     
-    try:
-        await page.click("body")
-    except:
-        pass
-
     while True:
-        await page.keyboard.press("End")
-        await page.wait_for_timeout(500)
-        await page.evaluate("window.scrollBy(0, -300)")
-        await page.wait_for_timeout(500)
-        await page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
+        scrolled = await page.evaluate("""() => {
+            const items = Array.from(document.querySelectorAll('li[class*="listItem"]'));
+            const activeItems = items.filter(item => !item.querySelector('[class*="soldText"]'));
+            
+            if (activeItems.length > 0) {
+                const lastActive = activeItems[activeItems.length - 1];
+                lastActive.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return true;
+            }
+            return false;
+        }""")
+
+        if not scrolled:
+            # If no active items found, fallback to scrolling to bottom
+            await page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
         
         await page.wait_for_timeout(TIMEOUT_SCROLL)
 
-        curr_count = await page.evaluate("() => document.querySelectorAll('a[href*=\"/products/\"]').length")
-
-        last_item_is_sold = await page.evaluate("""() => {
-            const items = document.querySelectorAll('li[class*="listItem"]');
-            if (items.length === 0) return false;
-            const lastItem = items[items.length - 1];
-            const soldBadge = lastItem.querySelector('[class*="soldText"]');
-            return !!soldBadge;
+        # Count currently visible ACTIVE items
+        curr_active_count = await page.evaluate("""() => {
+            const items = Array.from(document.querySelectorAll('li[class*="listItem"]'));
+            return items.filter(item => !item.querySelector('[class*="soldText"]')).length;
         }""")
 
-        if last_item_is_sold:
-            break
-
-        if curr_count == prev_count:
+        if curr_active_count == prev_active_count:
             attempts += 1
         else:
             attempts = 0
-            print(f"Total listings found: {curr_count}", end="\r", flush=True)
+            print(f"Total listings found: {curr_active_count}", end="\r", flush=True)
         
         if attempts >= 5:
             break
 
-        prev_count = curr_count
+        prev_active_count = curr_active_count
     
     # Extract links after full load
     html = await page.content()
@@ -70,7 +68,7 @@ async def get_listing_urls(page, base_url):
     seen = set()
 
     for product in soup.select('li[class*="listItem"]'):
-        if product.find(string="Sold"):
+        if product.select_one('[class*="soldText"]'):
             continue
 
         url_tag = product.select_one('a[href*="/products/"]')

@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "E-crosslister",
+  "version": "1.0.0",
+  "description": "Crosslist your e-commerce listings to other platforms",
+  "action": {
+    "default_popup": "index.html"
+  },
+  "permissions": ["activeTab", "storage"],
+  "content_scripts": [
+    {
+      "js": ["src/content.js"],
+      "matches": [
+        "https://www.depop.com/*",
+        "https://www.vinted.com/*"
+      ]
+    }
+  ]
+}
