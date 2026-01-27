@@ -1,42 +1,99 @@
 #root {
-  max-width: 1280px;
+  width: 300px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1rem;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+header h1 {
+  font-size: 1.5em;
+  margin-bottom: 1rem;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.tabs {
+  display: flex;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #333;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.tab {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+  font-weight: bold;
+  opacity: 0.6;
 }
 
-.card {
-  padding: 2em;
+.tab.active {
+  opacity: 1;
+  border-bottom: 2px solid #646cff;
+  margin-bottom: -2px;
 }
 
-.read-the-docs {
-  color: #888;
+.content {
+  min-height: 150px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center; /* Centered vertically */
+  gap: 1rem;
+}
+
+.platforms-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.platforms-col button {
+  width: 100%;
+  padding: 0.6rem;
+  text-align: left;
+  border: 1px solid transparent;
+  background-color: #333; /* Unifying color */
+}
+
+.platforms-col button.active {
+  border: 1px solid #646cff; /* Just a border for active state */
+  /* Remove background-color change if 'same color' meant uniform background */
+}
+
+.actions-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* More spacing */
+  flex: 2; /* Give more space to right column */
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.actions-col input {
+  padding: 0.6rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background-color: #242424;
+  color: white;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.actions-col button {
+  width: 100%;
+  padding: 0.6rem;
+  background-color: #4CAF50; 
+}
+
+footer {
+  margin-top: 2rem;
+  border-top: 1px solid #444;
+  padding-top: 1rem;
+}
+
+.view-data-btn {
+  background-color: #333;
 }
