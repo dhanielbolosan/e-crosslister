@@ -60,6 +60,19 @@ function App() {
           >
             Vinted
           </button>
+          <button
+            className={selectedPlatform === 'FB Marketplace' ? 'platform-button active' : 'platform-button'}
+            onClick={() => setSelectedPlatform('FB Marketplace')}
+          >
+            FB Marketplace
+          </button>
+
+          <button
+            className={selectedPlatform === 'eBay' ? 'platform-button active' : 'platform-button'}
+            onClick={() => setSelectedPlatform('eBay')}
+          >
+            eBay
+          </button>
         </div>
 
         <div className="actions-col">
