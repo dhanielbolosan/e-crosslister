@@ -18,12 +18,12 @@
   },
   "content_scripts": [
     {
-      "matches": ["*://*.depop.com/*"],
+      "matches": ["*://depop.com/*", "*://*.depop.com/*"],
       "js": ["src/content-scripts/depop/index.ts"],
       "run_at": "document_idle"
     },
     {
-      "matches": ["*://*.vinted.com/*", "*://*.vinted.co.uk/*"],
+      "matches": ["*://vinted.com/*", "*://*.vinted.com/*", "*://*.vinted.co.uk/*"],
       "js": ["src/content-scripts/vinted/index.ts"],
       "run_at": "document_idle"
     }

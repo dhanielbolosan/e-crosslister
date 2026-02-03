@@ -1,5 +1,11 @@
+console.log('Depop Content Script Loaded');
+
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   console.log('Depop Script Received:', message);
+
+  if (message.platform !== 'depop') {
+    return;
+  }
 
   if (message.action === 'download') {
     console.log('Starting Depop Download for:', message.username);
@@ -10,5 +16,5 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     sendResponse({ success: true, message: 'Depop Upload Started' });
   }
 
-  return true; // Keep channel open
+  return true;
 });

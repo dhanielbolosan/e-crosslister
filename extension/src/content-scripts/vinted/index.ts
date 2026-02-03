@@ -1,5 +1,11 @@
+console.log('Vinted Content Script Loaded');
+
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   console.log('Vinted Script Received:', message);
+
+  if (message.platform !== 'vinted') {
+    return;
+  }
 
   if (message.action === 'download') {
     console.log('Starting Vinted Download for:', message.username);
